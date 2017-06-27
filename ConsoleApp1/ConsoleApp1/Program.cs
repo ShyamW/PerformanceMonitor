@@ -21,7 +21,7 @@ namespace ConsoleApp1
                 //This block will execute when category has no instance.
                 //loop all the counters available withing category
                 foreach (PerformanceCounter counter in cat.GetCounters())
-                    Console.WriteLine("Counter Name: {0}", counter.CounterName);
+                    Console.WriteLine("{0} : Counter Name: {1}", counter.CounterName, counter.NextValue().ToString());
             }
         }
 
