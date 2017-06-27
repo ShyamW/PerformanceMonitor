@@ -9,13 +9,33 @@ namespace ConsoleApp1
 {
     class Program
     {
-        static void Main(string[] args) {
-            PerformanceCounterCategory[] perfCats = PerformanceCounterCategory.GetCategories();
-            foreach (PerformanceCounterCategory category in perfCats.OrderBy(c => c.CategoryName))
+        static void helper_method(PerformanceCounterCategory [] perfCats)
+        {
+            //Get single category by category name.
+            PerformanceCounterCategory cat = perfCats.Where(c => c.CategoryName == "Memory").FirstOrDefault();
+
+            //print all memory counters
+            string[] instances = cat.GetInstanceNames();
+            if (instances.Length == 0)
             {
-                Console.WriteLine("Category Name: {0}", category.CategoryName);
-            }        
-            Console.ReadLine();
+                //This block will execute when category has no instance.
+                //loop all the counters available withing category
+                foreach (PerformanceCounter counter in cat.GetCounters())
+                    Console.WriteLine("Counter Name: {0}", counter.CounterName);
+            }
         }
+
+        static void Main(string[] args)
+        {
+            //Get all performance categories
+            PerformanceCounterCategory[] perfCats = PerformanceCounterCategory.GetCategories();
+            helper_method(perfCats);
+           
+;
+
+           Console.ReadLine();
+        }
+
+        
     }
 }
